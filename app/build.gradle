@@ -47,13 +47,18 @@ android {
         }
     }
     applicationVariants.all { variant ->
-        variant.outputs.all {
+        variant.outputs.all { output ->
             if (variant.buildType.debuggable) {
                 def fileName = "Mutually_${defaultConfig.versionName}-${releaseTime()}_debug.apk"
+                // 自定义文件名
                 outputFileName = fileName
+                // 自定义输出路径
+                variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + File.separator + "outputs")
             } else {
                 def fileName = "hh_market_${defaultConfig.versionName}_${releaseTime()}_release.apk"
                 outputFileName = fileName
+                // 自定义输出路径
+                variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + File.separator + "outputs")
             }
         }
     }
@@ -69,7 +74,7 @@ android {
 
 //获取编译时间
 static def releaseTime() {
-    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
 }
 
 dependencies {
